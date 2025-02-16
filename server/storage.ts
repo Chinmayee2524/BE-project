@@ -34,6 +34,30 @@ export class MemStorage implements IStorage {
         category: "Bags",
         imageUrl: "https://placehold.co/400x300/green/white?text=Cotton+Tote",
         price: 19.99
+      },
+      {
+        name: "Plastic Water Bottle",
+        description: "Standard reusable water bottle made from BPA-free plastic",
+        ecoScore: 4.5,
+        category: "Drinkware",
+        imageUrl: "https://placehold.co/400x300/gray/white?text=Plastic+Bottle",
+        price: 12.99
+      },
+      {
+        name: "Steel Water Bottle",
+        description: "Durable stainless steel water bottle with vacuum insulation",
+        ecoScore: 7.5,
+        category: "Drinkware",
+        imageUrl: "https://placehold.co/400x300/green/white?text=Steel+Bottle",
+        price: 29.99
+      },
+      {
+        name: "Canvas Shopping Bag",
+        description: "Reusable shopping bag made from organic canvas",
+        ecoScore: 8.5,
+        category: "Bags",
+        imageUrl: "https://placehold.co/400x300/green/white?text=Canvas+Bag",
+        price: 15.99
       }
     ];
 
