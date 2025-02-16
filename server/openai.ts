@@ -1,0 +1,33 @@
+import OpenAI from "openai";
+
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error("OPENAI_API_KEY environment variable is required");
+}
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+// the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+export async function getRecommendations(query: string) {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: "You are an eco-friendly product recommendation expert. For each query, analyze the intent and provide relevant eco-friendly alternatives. Return a JSON array of product recommendations with name, description, category, ecoScore (0-10), and estimated price."
+        },
+        {
+          role: "user",
+          content: query
+        }
+      ],
+      response_format: { type: "json_object" }
+    });
+
+    const result = JSON.parse(response.choices[0].message.content);
+    return result.recommendations;
+  } catch (error) {
+    console.error("OpenAI API error:", error);
+    throw new Error("Failed to get recommendations");
+  }
+}
