@@ -7,13 +7,13 @@ import { type Product } from "@shared/schema";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const { data: products, isLoading } = useQuery<Product[]>({
     queryKey: ["/api/products/search", searchQuery],
-    queryFn: () => 
+    queryFn: () =>
       fetch(`/api/products/search?q=${encodeURIComponent(searchQuery)}`)
-        .then(res => res.json()),
-    enabled: searchQuery.length > 0
+        .then((res) => res.json()),
+    enabled: searchQuery.length > 0,
   });
 
   return (
@@ -28,7 +28,9 @@ export default function Home() {
           </p>
         </div>
 
-        <SearchBar onSearch={setSearchQuery} />
+        <div className="max-w-2xl mx-auto mb-8">
+          <SearchBar onSearch={setSearchQuery} />
+        </div>
 
         <div className="mt-12">
           {isLoading ? (
@@ -43,7 +45,11 @@ export default function Home() {
             <div className="text-center text-muted-foreground">
               No products found. Try a different search term.
             </div>
-          ) : null}
+          ) : (
+            <div className="text-center text-muted-foreground">
+              Enter a search term to find eco-friendly products
+            </div>
+          )}
         </div>
       </main>
     </div>
