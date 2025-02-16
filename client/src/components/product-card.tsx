@@ -8,19 +8,29 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const isEcoFriendly = product.ecoScore > 5;
+
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-      <CardHeader className="p-0">
+    <Card className={`overflow-hidden hover:shadow-lg transition-shadow ${isEcoFriendly ? 'border-green-500 border-2' : ''}`}>
+      <CardHeader className="p-0 relative">
         <img
           src={product.imageUrl}
           alt={product.name}
           className="w-full h-48 object-cover"
         />
+        {isEcoFriendly && (
+          <div className="absolute top-2 left-2">
+            <Badge className="bg-green-500 text-white">Eco-Friendly</Badge>
+          </div>
+        )}
       </CardHeader>
       <CardContent className="p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-lg">{product.name}</h3>
-          <Badge variant="secondary" className="flex items-center gap-1">
+          <Badge 
+            variant={isEcoFriendly ? "secondary" : "outline"} 
+            className={`flex items-center gap-1 ${isEcoFriendly ? 'bg-green-100' : ''}`}
+          >
             <Leaf className="h-3 w-3" />
             {product.ecoScore.toFixed(1)}
           </Badge>

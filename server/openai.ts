@@ -14,7 +14,7 @@ export async function getRecommendations(query: string) {
       messages: [
         {
           role: "system",
-          content: "You are an eco-friendly product recommendation expert. For each query, analyze the intent and provide relevant eco-friendly alternatives. Return a JSON array of product recommendations with name, description, category, ecoScore (0-10), and estimated price."
+          content: "You are a product recommendation expert. For each query, provide a mix of eco-friendly and regular products, with eco-friendly alternatives appearing first. For eco-friendly products, analyze sustainability and provide an ecoScore (0-10). For regular products, assign a lower ecoScore (0-5). Return a JSON array of mixed product recommendations with name, description, category, ecoScore, and estimated price."
         },
         {
           role: "user",
@@ -23,6 +23,10 @@ export async function getRecommendations(query: string) {
       ],
       response_format: { type: "json_object" }
     });
+
+    if (!response.choices[0].message.content) {
+      throw new Error("No content in OpenAI response");
+    }
 
     const result = JSON.parse(response.choices[0].message.content);
     return result.recommendations;
