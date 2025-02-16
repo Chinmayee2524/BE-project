@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer } from "http";
 import { storage } from "./storage";
-import { getRecommendations } from "./openai";
+import { getRecommendations } from "./llama";
 import { insertProductSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express) {
@@ -33,15 +33,13 @@ export async function registerRoutes(app: Express) {
             ecoScore: Math.max(0, Math.min(10, rec.ecoScore))
           }));
 
-          // Store the AI generated products
-          for (const product of products) {
-            try {
-              const validated = insertProductSchema.parse(product);
-              await storage.createProduct(validated);
-            } catch (error) {
-              console.error("Failed to store product:", error);
-            }
-          }
+          // Process the Llama-2 generated products
+          products = products.map((product: any) => ({
+            ...product,
+            id: Math.floor(Math.random() * 1000000),
+            imageUrl: `https://placehold.co/400x300/${product.ecoScore > 5 ? 'green' : 'gray'}/white?text=${encodeURIComponent(product.name)}`,
+            ecoScore: Math.max(0, Math.min(10, product.ecoScore))
+          }));
         } else {
           console.log("No recommendations from OpenAI, falling back to local search");
           products = await storage.searchProducts(q);
