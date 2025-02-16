@@ -25,21 +25,26 @@ export async function registerRoutes(app: Express) {
       let products = [];
       try {
         const recommendations = await getRecommendations(q);
-        products = recommendations.map((rec: any) => ({
-          ...rec,
-          id: Math.floor(Math.random() * 1000000),
-          imageUrl: `https://placehold.co/400x300/${rec.ecoScore > 5 ? 'green' : 'gray'}/white?text=${encodeURIComponent(rec.name)}`,
-          ecoScore: Math.max(0, Math.min(10, rec.ecoScore))
-        }));
+        if (recommendations && recommendations.length > 0) {
+          products = recommendations.map((rec: any) => ({
+            ...rec,
+            id: Math.floor(Math.random() * 1000000),
+            imageUrl: `https://placehold.co/400x300/${rec.ecoScore > 5 ? 'green' : 'gray'}/white?text=${encodeURIComponent(rec.name)}`,
+            ecoScore: Math.max(0, Math.min(10, rec.ecoScore))
+          }));
 
-        // Store the Llama-2 generated products
-        for (const product of products) {
-          try {
-            const validated = insertProductSchema.parse(product);
-            await storage.createProduct(validated);
-          } catch (error) {
-            console.error("Failed to store product:", error);
+          // Store the Llama-2 generated products
+          for (const product of products) {
+            try {
+              const validated = insertProductSchema.parse(product);
+              await storage.createProduct(validated);
+            } catch (error) {
+              console.error("Failed to store product:", error);
+            }
           }
+        } else {
+          console.log("No recommendations from Llama, falling back to local search");
+          products = await storage.searchProducts(q);
         }
       } catch (error) {
         // If Llama-2 fails, fall back to local search
