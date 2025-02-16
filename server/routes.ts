@@ -32,14 +32,6 @@ export async function registerRoutes(app: Express) {
             imageUrl: `https://placehold.co/400x300/${rec.ecoScore > 5 ? 'green' : 'gray'}/white?text=${encodeURIComponent(rec.name)}`,
             ecoScore: Math.max(0, Math.min(10, rec.ecoScore))
           }));
-
-          // Process the Llama-2 generated products
-          products = products.map((product: any) => ({
-            ...product,
-            id: Math.floor(Math.random() * 1000000),
-            imageUrl: `https://placehold.co/400x300/${product.ecoScore > 5 ? 'green' : 'gray'}/white?text=${encodeURIComponent(product.name)}`,
-            ecoScore: Math.max(0, Math.min(10, product.ecoScore))
-          }));
         } else {
           console.log("No recommendations from OpenAI, falling back to local search");
           products = await storage.searchProducts(q);
