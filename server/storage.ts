@@ -58,6 +58,70 @@ export class MemStorage implements IStorage {
         category: "Bags",
         imageUrl: "https://placehold.co/400x300/green/white?text=Canvas+Bag",
         price: 15.99
+      },
+      {
+        name: "Bamboo Cutlery Set",
+        description: "Portable bamboo utensils set with carrying case",
+        ecoScore: 9.2,
+        category: "Kitchen",
+        imageUrl: "https://placehold.co/400x300/green/white?text=Bamboo+Cutlery",
+        price: 18.99
+      },
+      {
+        name: "Plastic Cutlery Set",
+        description: "Reusable plastic utensils for everyday use",
+        ecoScore: 4.0,
+        category: "Kitchen",
+        imageUrl: "https://placehold.co/400x300/gray/white?text=Plastic+Cutlery",
+        price: 9.99
+      },
+      {
+        name: "Solar Power Bank",
+        description: "10000mAh portable charger with solar charging capability",
+        ecoScore: 8.8,
+        category: "Electronics",
+        imageUrl: "https://placehold.co/400x300/green/white?text=Solar+Bank",
+        price: 45.99
+      },
+      {
+        name: "Regular Power Bank",
+        description: "Standard 10000mAh portable battery pack",
+        ecoScore: 3.5,
+        category: "Electronics",
+        imageUrl: "https://placehold.co/400x300/gray/white?text=Power+Bank",
+        price: 29.99
+      },
+      {
+        name: "Bamboo Toothbrush",
+        description: "Biodegradable toothbrush with bamboo handle",
+        ecoScore: 9.7,
+        category: "Personal Care",
+        imageUrl: "https://placehold.co/400x300/green/white?text=Bamboo+Brush",
+        price: 4.99
+      },
+      {
+        name: "Plastic Toothbrush",
+        description: "Regular plastic toothbrush",
+        ecoScore: 2.0,
+        category: "Personal Care",
+        imageUrl: "https://placehold.co/400x300/gray/white?text=Plastic+Brush",
+        price: 2.99
+      },
+      {
+        name: "Recycled Paper Notebook",
+        description: "100% recycled paper notebook with seed paper cover",
+        ecoScore: 9.3,
+        category: "Stationery",
+        imageUrl: "https://placehold.co/400x300/green/white?text=Eco+Notebook",
+        price: 12.99
+      },
+      {
+        name: "Regular Notebook",
+        description: "Standard spiral notebook",
+        ecoScore: 3.0,
+        category: "Stationery",
+        imageUrl: "https://placehold.co/400x300/gray/white?text=Notebook",
+        price: 7.99
       }
     ];
 
@@ -81,7 +145,7 @@ export class MemStorage implements IStorage {
 
   async searchProducts(query: string): Promise<Product[]> {
     const lowercaseQuery = query.toLowerCase();
-    return Array.from(this.products.values()).filter(product => 
+    return Array.from(this.products.values()).filter(product =>
       product.name.toLowerCase().includes(lowercaseQuery) ||
       product.description.toLowerCase().includes(lowercaseQuery) ||
       product.category.toLowerCase().includes(lowercaseQuery)
