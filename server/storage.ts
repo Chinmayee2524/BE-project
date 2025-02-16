@@ -145,11 +145,47 @@ export class MemStorage implements IStorage {
 
   async searchProducts(query: string): Promise<Product[]> {
     const lowercaseQuery = query.toLowerCase();
-    return Array.from(this.products.values()).filter(product =>
-      product.name.toLowerCase().includes(lowercaseQuery) ||
-      product.description.toLowerCase().includes(lowercaseQuery) ||
-      product.category.toLowerCase().includes(lowercaseQuery)
-    );
+    const products = Array.from(this.products.values());
+
+    // Score each product based on relevance
+    const scoredProducts = products.map(product => {
+      let score = 0;
+
+      // Exact matches in name
+      if (product.name.toLowerCase().includes(lowercaseQuery)) {
+        score += 10;
+      }
+
+      // Matches in description
+      if (product.description.toLowerCase().includes(lowercaseQuery)) {
+        score += 5;
+      }
+
+      // Matches in category
+      if (product.category.toLowerCase().includes(lowercaseQuery)) {
+        score += 8;
+      }
+
+      // Boost eco-friendly products
+      if (product.ecoScore > 5) {
+        score += 5;
+      }
+
+      return { product, score };
+    });
+
+    // Filter products with any relevance and sort by score
+    return scoredProducts
+      .filter(item => item.score > 0)
+      .sort((a, b) => {
+        // First sort by score
+        if (b.score !== a.score) {
+          return b.score - a.score;
+        }
+        // Then by ecoScore for items with same relevance
+        return b.product.ecoScore - a.product.ecoScore;
+      })
+      .map(item => item.product);
   }
 }
 
