@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer } from "http";
 import { storage } from "./storage";
-import { getRecommendations } from "./llama";
+import { getRecommendations } from "./openai";
 import { insertProductSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express) {
@@ -21,7 +21,7 @@ export async function registerRoutes(app: Express) {
     }
 
     try {
-      // First try to get recommendations from local Llama-2
+      // First try to get recommendations from OpenAI
       let products = [];
       try {
         const recommendations = await getRecommendations(q);
@@ -33,7 +33,7 @@ export async function registerRoutes(app: Express) {
             ecoScore: Math.max(0, Math.min(10, rec.ecoScore))
           }));
 
-          // Store the Llama-2 generated products
+          // Store the AI generated products
           for (const product of products) {
             try {
               const validated = insertProductSchema.parse(product);
@@ -43,12 +43,12 @@ export async function registerRoutes(app: Express) {
             }
           }
         } else {
-          console.log("No recommendations from Llama, falling back to local search");
+          console.log("No recommendations from OpenAI, falling back to local search");
           products = await storage.searchProducts(q);
         }
       } catch (error) {
-        // If Llama-2 fails, fall back to local search
-        console.log("Llama-2 search failed, falling back to local search:", error);
+        // If OpenAI fails, fall back to local search
+        console.log("OpenAI search failed, falling back to local search:", error);
         products = await storage.searchProducts(q);
       }
 
