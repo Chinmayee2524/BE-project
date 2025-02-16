@@ -1,39 +1,34 @@
-import { PerplexityAI } from "@perplexity/web-api";
+import { pipeline } from '@xenova/transformers';
 
-if (!process.env.PERPLEXITY_API_KEY) {
-  throw new Error("PERPLEXITY_API_KEY environment variable is required");
+// Initialize the model - this will download and cache the model locally
+let generator: any = null;
+
+async function initializeModel() {
+  if (!generator) {
+    generator = await pipeline('text-generation', 'Xenova/Llama-2-7b-chat-hf', {
+      quantized: true // Use quantized model to reduce memory usage
+    });
+  }
+  return generator;
 }
-
-const perplexity = new PerplexityAI(process.env.PERPLEXITY_API_KEY);
 
 export async function getRecommendations(query: string) {
   try {
-    const response = await perplexity.chat.completions.create({
-      model: "llama-3.1-sonar-small-128k-online",
-      messages: [
-        {
-          role: "system",
-          content: "You are a product recommendation expert. For each query, provide a mix of eco-friendly and regular products, with eco-friendly alternatives appearing first. For eco-friendly products, analyze sustainability and provide an ecoScore (0-10). For regular products, assign a lower ecoScore (0-5). Return a JSON array of mixed product recommendations with name, description, category, ecoScore, and estimated price."
-        },
-        {
-          role: "user",
-          content: query
-        }
-      ],
-      temperature: 0.2,
-      top_p: 0.9,
-      return_images: false,
-      return_related_questions: false
+    const model = await initializeModel();
+
+    const prompt = `You are a product recommendation expert. For the query "${query}", provide eco-friendly and regular products, prioritizing sustainable alternatives. Format the response as a JSON array of products with fields: name, description, category, ecoScore (0-10), and price. Eco-friendly products should have ecoScore > 5.`;
+
+    const result = await model(prompt, {
+      max_length: 1000,
+      temperature: 0.7,
+      num_return_sequences: 1
     });
 
-    if (!response.choices[0].message.content) {
-      throw new Error("No content in Llama-2 response");
-    }
-
-    const result = JSON.parse(response.choices[0].message.content);
-    return result.recommendations;
+    // Parse the generated text as JSON
+    const response = JSON.parse(result[0].generated_text);
+    return response.recommendations || [];
   } catch (error) {
-    console.error("Llama-2 API error:", error);
-    throw new Error("Failed to get recommendations");
+    console.error("Llama-2 generation error:", error);
+    throw new Error("Failed to get recommendations from Llama-2");
   }
 }
