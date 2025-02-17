@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { type Product } from '@shared/schema';
 
 export function CartButton() {
@@ -17,8 +17,8 @@ export function CartButton() {
   }, []);
 
   return (
-    <Button variant="outline" className="relative">
-      <ShoppingCart className="h-5 w-5" />
+    <Button variant="ghost" className="relative">
+      <ShoppingBag className="h-5 w-5" />
       {items.length > 0 && (
         <span className="absolute -top-2 -right-2 bg-green-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
           {items.length}

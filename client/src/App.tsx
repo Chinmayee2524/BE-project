@@ -7,7 +7,7 @@ import Home from "@/pages/home";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import NotFound from "@/pages/not-found";
-import { CartButton } from "@/components/cart-button"; // Added import for CartButton
+import { CartButton } from "@/components/cart-button";
 
 function Router() {
   return (
@@ -24,9 +24,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen">
-        <div className="flex items-center gap-4 p-4 border-b"> {/* Added div for flex layout */}
+        <div className="flex items-center justify-between p-4 border-b">
           <NavigationMenu />
-          <CartButton /> {/* Added CartButton */}
+          <CartButton />
         </div>
         <main className="container mx-auto py-6">
           <Router />
