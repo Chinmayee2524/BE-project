@@ -17,6 +17,23 @@ const NavigationMenu = React.forwardRef<
     )}
     {...props}
   >
+    <NavigationMenuList>
+      <NavigationMenuItem>
+        <NavigationMenuLink href="/" className={navigationMenuTriggerStyle()}>
+          Home
+        </NavigationMenuLink>
+      </NavigationMenuItem>
+      <NavigationMenuItem>
+        <NavigationMenuLink href="/about" className={navigationMenuTriggerStyle()}>
+          About Us
+        </NavigationMenuLink>
+      </NavigationMenuItem>
+      <NavigationMenuItem>
+        <NavigationMenuLink href="/contact" className={navigationMenuTriggerStyle()}>
+          Contact
+        </NavigationMenuLink>
+      </NavigationMenuItem>
+    </NavigationMenuList>
     {children}
     <NavigationMenuViewport />
   </NavigationMenuPrimitive.Root>
