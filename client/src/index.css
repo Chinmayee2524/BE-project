@@ -1,3 +1,43 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .envelope-background {
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);
+    background-color: white;
+  }
+
+  .heart {
+    font-size: 2rem;
+    transition: transform 0.3s ease;
+  }
+
+  .heart-clicked {
+    transform: scale(0);
+  }
+
+  .letter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    z-index: 10;
+  }
+
+  .letter-closed {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+
+  .letter-open {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
