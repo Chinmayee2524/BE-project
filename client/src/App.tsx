@@ -7,6 +7,7 @@ import Home from "@/pages/home";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import NotFound from "@/pages/not-found";
+import { CartButton } from "@/components/cart-button"; // Added import for CartButton
 
 function Router() {
   return (
@@ -23,25 +24,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen">
-        <NavigationMenu className="p-4 border-b">
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/" className={navigationMenuTriggerStyle()}>
-                Home
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/about" className={navigationMenuTriggerStyle()}>
-                About Us
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/contact" className={navigationMenuTriggerStyle()}>
-                Contact
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+        <div className="flex items-center gap-4 p-4 border-b"> {/* Added div for flex layout */}
+          <NavigationMenu />
+          <CartButton /> {/* Added CartButton */}
+        </div>
         <main className="container mx-auto py-6">
           <Router />
         </main>

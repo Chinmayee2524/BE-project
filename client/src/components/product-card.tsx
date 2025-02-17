@@ -36,9 +36,17 @@ export function ProductCard({ product }: ProductCardProps) {
           </Badge>
         </div>
         <p className="text-muted-foreground text-sm mb-4">{product.description}</p>
-        <div className="flex justify-between items-center">
-          <span className="text-primary font-medium">${product.price.toFixed(2)}</span>
-          <Badge variant="outline">{product.category}</Badge>
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-center">
+            <span className="text-primary font-medium">${product.price.toFixed(2)}</span>
+            <Badge variant="outline">{product.category}</Badge>
+          </div>
+          <Button 
+            onClick={() => window.dispatchEvent(new CustomEvent('add-to-cart', { detail: product }))}
+            className="w-full bg-green-600 hover:bg-green-700"
+          >
+            Add to Cart
+          </Button>
         </div>
       </CardContent>
     </Card>
