@@ -24,9 +24,14 @@ export default function Contact() {
   return (
     <div className="container mx-auto p-8 flex justify-center items-center min-h-[80vh]">
       <div className={`relative w-96 h-72 ${isOpen ? 'envelope-open' : 'envelope-closed'}`}>
-        <div className="envelope-background bg-white border-2 border-gray-300 w-full h-full flex items-center justify-center cursor-pointer"
-             onClick={() => !isOpen && setIsOpen(true)}>
-          <div className={`heart ${isOpen ? 'heart-clicked' : ''}`}>❤️</div>
+        <div 
+          className="envelope-background bg-gradient-to-br from-green-100 to-white border-2 border-green-300 w-full h-full flex items-center justify-center cursor-pointer shadow-lg rounded-sm transition-all duration-300 hover:shadow-xl hover:scale-105"
+          onClick={() => !isOpen && setIsOpen(true)}
+        >
+          <div className={`heart ${isOpen ? 'heart-clicked' : ''}`}>
+            <span className="text-4xl animate-pulse">❤️</span>
+          </div>
+          <div className="envelope-flap"></div>
         </div>
         
         <div className={`letter bg-white p-6 rounded-lg shadow-lg transition-all duration-500 ${isOpen ? 'letter-open' : 'letter-closed'}`}>

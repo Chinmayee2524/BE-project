@@ -6,12 +6,34 @@
 @layer components {
   .envelope-background {
     clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);
-    background-color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(160deg, rgba(134, 239, 172, 0.2), rgba(255, 255, 255, 0.4));
+    clip-path: polygon(0 0, 50% 50%, 100% 0);
+    transform-origin: top;
+    transition: transform 0.5s ease;
+  }
+
+  .envelope-open .envelope-flap {
+    transform: rotateX(180deg);
   }
 
   .heart {
-    font-size: 2rem;
-    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 10;
+    transition: transform 0.5s ease;
+  }
+
+  .envelope-closed:hover .heart {
+    transform: scale(1.1);
   }
 
   .heart-clicked {
