@@ -25,7 +25,25 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen">
         <div className="flex items-center justify-between p-4 border-b">
-          <NavigationMenu />
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuLink href="/" className={navigationMenuTriggerStyle()}>
+                  Home
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink href="/about" className={navigationMenuTriggerStyle()}>
+                  About Us
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink href="/contact" className={navigationMenuTriggerStyle()}>
+                  Contact
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
           <CartButton />
         </div>
         <main className="container mx-auto py-6">
