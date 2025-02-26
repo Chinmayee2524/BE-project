@@ -3,13 +3,16 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Leaf } from "lucide-react";
+import { useState } from "react";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const [showPrompt, setShowPrompt] = useState(false);
   const isEcoFriendly = product.ecoScore > 5;
+  const isIndianProduct = product.category === "Indian Products";
 
   return (
     <Card className={`overflow-hidden hover:shadow-lg transition-shadow ${isEcoFriendly ? 'border-green-500 border-2' : ''}`}>
@@ -42,6 +45,18 @@ export function ProductCard({ product }: ProductCardProps) {
             <span className="text-primary font-medium">${product.price.toFixed(2)}</span>
             <Badge variant="outline">{product.category}</Badge>
           </div>
+          {isIndianProduct && (
+            <Button variant="outline" className="mt-2" onClick={() => setShowPrompt(true)}>
+              Shop Indian Products
+            </Button>
+          )}
+          {showPrompt && (
+            <div className="mt-2 p-4 bg-gray-100 rounded-md">
+              <p className="text-sm">
+                Explore our curated selection of Indian products! Discover authentic flavors, traditional crafts, and unique treasures from India.
+              </p>
+            </div>
+          )}
           <Button 
             onClick={() => window.dispatchEvent(new CustomEvent('add-to-cart', { detail: product }))}
             className="w-full bg-green-600 hover:bg-green-700"
